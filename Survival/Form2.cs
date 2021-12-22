@@ -71,12 +71,12 @@ namespace Survival
             if (girisEmail.Text != "E-Posta" && girisSifre.Text != "Şifre")
             {
                 AuthService.Login(girisEmail.Text, girisSifre.Text);
-                if (AuthService.user.Token != "")
+                if (AuthService.user.Token != null)
                 {
                     this.Hide();
                 }
             }
-            else { MessageBox.Show(AuthService.user.Token); }
+            else { MessageBox.Show("Lütfen Bütün Alanları Doldurun!"); }
         }
 
         private void Form2_Load(object sender, EventArgs e)

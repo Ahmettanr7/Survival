@@ -31,7 +31,6 @@ namespace Survival
         {
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
@@ -45,7 +44,6 @@ namespace Survival
             this.label1.Size = new System.Drawing.Size(243, 55);
             this.label1.TabIndex = 0;
             this.label1.Text = "Oyun Bitti";
-            this.label1.SizeChanged += new System.EventHandler(this.label1_SizeChanged);
             // 
             // label2
             // 
@@ -59,21 +57,6 @@ namespace Survival
             this.label2.Size = new System.Drawing.Size(191, 66);
             this.label2.TabIndex = 1;
             this.label2.Text = "Puan : 150";
-            this.label2.SizeChanged += new System.EventHandler(this.label2_SizeChanged);
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.BackColor = System.Drawing.Color.Tomato;
-            this.label3.Font = new System.Drawing.Font("Cambria", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.label3.ForeColor = System.Drawing.Color.Transparent;
-            this.label3.Location = new System.Drawing.Point(922, 532);
-            this.label3.Name = "label3";
-            this.label3.Padding = new System.Windows.Forms.Padding(15);
-            this.label3.Size = new System.Drawing.Size(242, 66);
-            this.label3.TabIndex = 2;
-            this.label3.Text = "Sıralama : 205";
-            this.label3.SizeChanged += new System.EventHandler(this.label3_SizeChanged);
             // 
             // button1
             // 
@@ -96,7 +79,6 @@ namespace Survival
             this.BackColor = System.Drawing.Color.DarkRed;
             this.ClientSize = new System.Drawing.Size(1867, 931);
             this.Controls.Add(this.button1);
-            this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Name = "Form6";
@@ -112,7 +94,6 @@ namespace Survival
 
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button button1;
     }
 }

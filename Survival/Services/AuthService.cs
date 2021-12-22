@@ -18,86 +18,107 @@ namespace Survival.Services
         public static User user = new User();
         public static void Register(string nameSurname,string email,string pass)
         {
-            var url = "https://localhost:44385/api/auth/register";
 
-            var request = WebRequest.Create(url);
-            request.Method = "POST";
-            user.NameSurname = nameSurname;
-            user.Email = email;
-            user.Password = pass;
-            var json = System.Text.Json.JsonSerializer.Serialize(user);
-            byte[] byteArray = Encoding.UTF8.GetBytes(json);
-            request.ContentType = "application/json";
-            request.ContentLength = byteArray.Length;
 
-            using var reqStream = request.GetRequestStream();
-            reqStream.Write(byteArray, 0, byteArray.Length);
-
-            using var response = request.GetResponse();
-
-            using var respStream = response.GetResponseStream();
-
-            using var reader = new StreamReader(respStream);
-            dynamic array = JsonConvert.DeserializeObject(reader.ReadToEnd());
-
-            if (array["success"].ToString() == "True")
+            try
             {
-                user.Token = array["data"]["token"].ToString();
-                user.Id = array["message"];
-                Form1 form1 = new Form1();
-                Form3 form3 = new Form3();
-                form3.Show();
-                form1.Hide();
+                var url = "https://localhost:44385/api/auth/register";
+
+                var request = WebRequest.Create(url);
+                request.Method = "POST";
+                user.NameSurname = nameSurname;
+                user.Email = email;
+                user.Password = pass;
+                var json = System.Text.Json.JsonSerializer.Serialize(user);
+                byte[] byteArray = Encoding.UTF8.GetBytes(json);
+                request.ContentType = "application/json";
+                request.ContentLength = byteArray.Length;
+
+                using var reqStream = request.GetRequestStream();
+                reqStream.Write(byteArray, 0, byteArray.Length);
+
+                using var response = request.GetResponse();
+
+                using var respStream = response.GetResponseStream();
+
+                using var reader = new StreamReader(respStream);
+                dynamic array = JsonConvert.DeserializeObject(reader.ReadToEnd());
+                if (array["success"].ToString() == "True")
+                {
+                    user.Token = array["data"]["token"].ToString();
+                    user.Id = array["message"];
+                    Form1 form1 = new Form1();
+                    Form3 form3 = new Form3();
+                    form3.Show();
+                    form1.Hide();
+                }
+                else { MessageBox.Show("Opps. İşlem Başarısız. Tekrar Dene"); }
             }
-            else { MessageBox.Show("Opps. İşlem Başarısız. Tekrar Dene"); }
+            catch (Exception)
+            {
+                MessageBox.Show("Opps. İşlem Başarısız. Tekrar Dene. Daha Önce Kayıt Olmadığından Emin Misin ?");
+            }
+
+          
 
         }   
         
         public static void Login(string email, string pass)
         {
-            //post giriş
-            var url = "https://localhost:44385/api/auth/login";
-            var request = WebRequest.Create(url);
-            request.Method = "POST";
-            user.Email = email;
-            user.Password = pass;
-            var json = System.Text.Json.JsonSerializer.Serialize(user);
-            byte[] byteArray = Encoding.UTF8.GetBytes(json);
-            request.ContentType = "application/json";
-            request.ContentLength = byteArray.Length;
-            using var reqStream = request.GetRequestStream();
-            reqStream.Write(byteArray, 0, byteArray.Length);
-            using var response = request.GetResponse();
-            using var respStream = response.GetResponseStream();
-            using var reader = new StreamReader(respStream);
-            dynamic array = JsonConvert.DeserializeObject(reader.ReadToEnd());
 
-
-            if (array["success"].ToString() == "True")
+            try
             {
-                // get kullanıcı bilgileri
-                var url2 = "https://localhost:44385/api/users/getbyemail?email=" + email;
-                var request2 = WebRequest.Create(url2);
-                request2.Method = "GET";
-                request2.ContentType = "application/json";
-                using var response2 = request2.GetResponse();
-                using var respStream2 = response2.GetResponseStream();
-                using var reader2 = new StreamReader(respStream2);
+                //post giriş
+                var url = "https://localhost:44385/api/auth/login";
+                var request = WebRequest.Create(url);
+                request.Method = "POST";
+                user.Email = email;
+                user.Password = pass;
+                var json = System.Text.Json.JsonSerializer.Serialize(user);
+                byte[] byteArray = Encoding.UTF8.GetBytes(json);
+                request.ContentType = "application/json";
+                request.ContentLength = byteArray.Length;
+                using var reqStream = request.GetRequestStream();
+                reqStream.Write(byteArray, 0, byteArray.Length);
+                using var response = request.GetResponse();
+                using var respStream = response.GetResponseStream();
+                using var reader = new StreamReader(respStream);
 
-                dynamic array2 = JsonConvert.DeserializeObject(reader2.ReadToEnd());
-                user = new User()
+                dynamic array = JsonConvert.DeserializeObject(reader.ReadToEnd());
+
+
+                if (array["success"].ToString() == "True")
                 {
-                    Id = array2["data"]["id"],
-                    NameSurname = array2["data"]["nameSurname"].ToString(),
-                    Email = array2["data"]["email"].ToString(),
-                    Token = array["data"]["token"].ToString()
-                };
-                Form3 form3 = new Form3();
-                Form2 form2 = new Form2();
-                form3.Show();
-                form2.Hide();
+                    // get kullanıcı bilgileri
+                    var url2 = "https://localhost:44385/api/users/getbyemail?email=" + email;
+                    var request2 = WebRequest.Create(url2);
+                    request2.Method = "GET";
+                    request2.ContentType = "application/json";
+                    using var response2 = request2.GetResponse();
+                    using var respStream2 = response2.GetResponseStream();
+                    using var reader2 = new StreamReader(respStream2);
+
+                    dynamic array2 = JsonConvert.DeserializeObject(reader2.ReadToEnd());
+                    user = new User()
+                    {
+                        Id = array2["data"]["id"],
+                        NameSurname = array2["data"]["nameSurname"].ToString(),
+                        Email = array2["data"]["email"].ToString(),
+                        Token = array["data"]["token"].ToString()
+                    };
+                    Form3 form3 = new Form3();
+                    Form2 form2 = new Form2();
+                    form3.Show();
+                    form2.Hide();
+                }
+                else { MessageBox.Show(array["message"].ToString()); }
             }
-            else { MessageBox.Show("Opps. İşlem Başarısız. Tekrar Dene"); }
+            catch (Exception)
+            {
+                Form2 form2 = new Form2();
+                form2.Refresh();
+                MessageBox.Show("Şifren veya Parolan Hatalı. Bilgilerini Kontrol Et !");
+            }
         }
     }
 }

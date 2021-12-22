@@ -50,20 +50,5 @@ namespace Survival
             form3.Show();
             this.Hide();
         }
-
-        private void label1_SizeChanged(object sender, EventArgs e)
-        {
-            label1.Left = (this.ClientSize.Width - label1.Size.Width) / 2;
-        }
-
-        private void label2_SizeChanged(object sender, EventArgs e)
-        {
-            label2.Left = (this.ClientSize.Width - label2.Size.Width) / 2;
-        }
-
-        private void label3_SizeChanged(object sender, EventArgs e)
-        {
-            label3.Left = (this.ClientSize.Width - label3.Size.Width) / 2;
-        }
     }
 }
